@@ -21,9 +21,9 @@ ApiConnector.current((r) => {
 
 // Рефреш интерфейса
 
-const refresh = (result, message, func, where) => {
-  if (result.success) {
-    func(result.data);
+const refresh = (r, message, func, where) => {
+  if (r.success) {
+    func(r.data);
     where.setMessage(false, message);
   } else {
     where.setMessage(true, result.data);
