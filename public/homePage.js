@@ -26,7 +26,7 @@ const refresh = (r, message, func, where) => {
     func(r.data);
     where.setMessage(false, message);
   } else {
-    where.setMessage(true, result.data);
+    where.setMessage(true, r.data);
   }
 };
 
@@ -78,8 +78,12 @@ money.conversionMoneyCallback = (data) => {
 // Перевод
 
 money.sendMoneyCallback = (data) => {
-  if (data.amount > 0 && data.currency) {
-    // проверяем, чтобы не 0, и чтобы валюта была выбрана (так как api пропускает 0)
+  if (data.amount === '0') {
+    money.setMessage(true, 'Нельзя перевести 0');
+  }
+  else if(!data.currency) {
+    money.setMessage(true, 'Попробуйте выбрать валюту');
+  } else {
     ApiConnector.transferMoney(data, (r) => {
       refresh(
         r,
@@ -88,8 +92,6 @@ money.sendMoneyCallback = (data) => {
         money
       );
     });
-  } else {
-    money.setMessage(true, 'Будьте внимательнее :-)');
   }
 };
 
