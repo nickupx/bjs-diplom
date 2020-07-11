@@ -39,7 +39,7 @@ const getStocks = () => {
       rates.fillTable(r.data);
     }
   });
-}
+};
 
 const rates = new RatesBoard();
 getStocks();
@@ -78,17 +78,18 @@ money.conversionMoneyCallback = (data) => {
 // Перевод
 
 money.sendMoneyCallback = (data) => {
-  if (data.amount > 0 && data.currency) { // проверяем, чтобы не 0, и чтобы валюта была выбрана (так как api пропускает 0)
-  ApiConnector.transferMoney(data, (r) => {
-    refresh(
-      r,
-      `Перевели ${data.amount} ${data.currency} пользователю с ID ${data.to}`,
-      ProfileWidget.showProfile,
-      money
-    );
-  });
+  if (data.amount > 0 && data.currency) {
+    // проверяем, чтобы не 0, и чтобы валюта была выбрана (так как api пропускает 0)
+    ApiConnector.transferMoney(data, (r) => {
+      refresh(
+        r,
+        `Перевели ${data.amount} ${data.currency} пользователю с ID ${data.to}`,
+        ProfileWidget.showProfile,
+        money
+      );
+    });
   } else {
-    money.setMessage(true, 'Будьте внимательнее :-)')
+    money.setMessage(true, 'Будьте внимательнее :-)');
   }
 };
 
@@ -110,6 +111,7 @@ ApiConnector.getFavorites((r) => {
 
 fav.addUserCallback = () => {
   const user = fav.getData();
+  if (parseInt(user.id)) {
   ApiConnector.addUserToFavorites(user, (r) =>
     refresh(
       r,
@@ -118,6 +120,9 @@ fav.addUserCallback = () => {
       fav
     )
   );
+  } else {
+    fav.setMessage(true, 'Корявый ID');
+  }
 };
 
 fav.removeUserCallback = (id) => {
