@@ -19,8 +19,8 @@ router.post('/add', (request, response) => {
     return;
   }
 
-  if (amount < 0) {
-    response.json({ success: false, data: 'Невозможно добавить отрицательное число' });
+  if (amount <= 0) {
+    response.json({ success: false, data: 'Невозможно добавить ноль или отрицательное число' });
     return;
   }
 
@@ -58,8 +58,8 @@ router.post('/transfer', (request, response) => {
     return;
   }
 
-  if (amount < 0) {
-    response.json({ success: false, data: 'Невозможно перевести отрицательное число' });
+  if (amount <= 0) {
+    response.json({ success: false, data: 'Невозможно перевести ноль или отрицательное число' });
     return;
   }
 
@@ -97,8 +97,8 @@ router.post('/convert', (request, response) => {
     return;
   }
 
-  if (fromAmount < 0) {
-    response.json({ success: false, data: 'Невозможно конвертировать отрицательное число' });
+  if (fromAmount <= 0) {
+    response.json({ success: false, data: 'Невозможно конвертировать ноль или отрицательное число' });
     return;
   }
 
@@ -141,6 +141,7 @@ router.post('/convert', (request, response) => {
 
     const currency = data.data[`${fromCurrency}_${targetCurrency}`];
     const countConvertedMoney = fromAmount / currency;
+    console.log(countConvertedMoney);
     user.balance[fromCurrency] -= fromAmount;
     user.balance[targetCurrency] += countConvertedMoney;
 
